@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 
 const mongoose = require('mongoose');
+const bodyParser = require("body-parser");
+
 const users = require("./routes/api/users");
 const profile = require("./routes/api/profile");
 const posts = require("./routes/api/posts");
@@ -10,12 +12,15 @@ const posts = require("./routes/api/posts");
 const db = require("./config/keys.js").MONGO_URL;
 const PORT = require("./config/keys.js").PORT;
 
+//TODO: Connect to MongoDB
 mongoose
     .connect(db)
     .then(() => console.log("MongoDB has connected!"))
     .catch(err => console.log("MongoDB failed ", err));
 
-//TODO: SETTINGS
+//TODO: Middleware configuration
+app.use(bodyParser.urlencoded({extended: false}));
+app.unsubscribe(bodyParser.json());
 
 app.get("/", (req, res) => {
 
