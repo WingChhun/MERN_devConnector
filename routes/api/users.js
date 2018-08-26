@@ -34,7 +34,7 @@ router.post("/register", (req, res) => {
                 r: 'pg', //? Rating
                 d: 'mm' //? Default
             })
-            const newUser = new User({name, email,  password});
+            const newUser = new User({name, email, password});
 
             //* Brypt hash password
             bcrypt.genSalt(10, (err, salt) => {
@@ -59,11 +59,65 @@ router.post("/register", (req, res) => {
 
 });
 
+// TODO: LOGIN USER ? GET api/users/login ? desc Login User / returning JWT
+// token ? access public
+
+router.post("/login", (req, res) => {
+
+    const {email, password} = req.body;
+
+    //? Find user by email
+    User
+        .findOne({email})
+        .then(user => {
+
+            //! No user found, return error 404
+            if (!user) {
+                return res
+                    .status(404)
+                    .json({email: "User Not found"})
+            }
+
+            //* Check password *compare plain text password and  hhashed password
+            bcrypt
+                .compare(password, user.password)
+                .then(isMatch => {
+
+                    if (isMatch) {
+                        res.json({msg: "MESSAGE SUCCESS"});
+                    }
+
+                    return res
+                        .status(400)
+                        .json({password: "Password incorect"})
+
+                })
+
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+});
+
 //TODO: UPDATE
 router.post("/:id", (req, res) => {});
 
 //TODO: DELETE
-router.delete("/:id", (req, res) => {});
+router.delete("/:id", (req, res) => {
+
+    User
+        .findByIdAndRemove(req.params.id)
+        .then((user) => {
+            console.log("Succesfully removed ", user)
+
+            return res.json({msg: "Deleted user"})
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
+});
 
 //TODO GET api/users/test @desc Tests users route @access Public
 router.get("/test", (req, res) => {
