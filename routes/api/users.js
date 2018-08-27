@@ -9,6 +9,8 @@ const passport = require("passport");
 const User = require("../../models/User");
 const KEYS = require("../../config/keys");
 const validateRegisterInput = require("../../validation/register");
+const validateLoginInput = require("../../validation/login");
+
 //TODO: User CRUD - START
 
 //TODO: READ ALL
@@ -76,6 +78,15 @@ router.post("/register", (req, res) => {
 
 router.post("/login", (req, res) => {
 
+    const {errors, isValid} = validateLoginInput(req.body);
+
+    //! Return errors for login validation
+    is(isValid)
+    {
+        res
+            .status(400)
+            .json(errors);
+    }
     const {email, password} = req.body;
 
     //? Find user by email
@@ -85,9 +96,12 @@ router.post("/login", (req, res) => {
 
             //! No user found, return error 404
             if (!user) {
+
+                errors.email = "User not found";
+
                 return res
                     .status(404)
-                    .json({email: "User Not found"})
+                    .json(errors)
             }
 
             //* Check password *compare plain text password and  hhashed password
@@ -113,9 +127,12 @@ router.post("/login", (req, res) => {
                             return res.json({success: true, token: BEARER_TOKEN});
                         });
                     } else {
+
+                        errors.password = "Password incorrect";
+
                         return res
                             .status(400)
-                            .json({password: "Password incorect"})
+                            .json(errors);
                     }
                 })
 
