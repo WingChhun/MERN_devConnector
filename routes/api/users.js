@@ -8,6 +8,7 @@ const passport = require("passport");
 //* Get User Schema model
 const User = require("../../models/User");
 const KEYS = require("../../config/keys");
+const validateRegisterInput = require("../../validation/register");
 //TODO: User CRUD - START
 
 //TODO: READ ALL
@@ -17,9 +18,17 @@ router.get("/", (req, res) => {});
 router.post("/register", (req, res) => {
 
     //* Check if email exists first
+    const {errors, isValid} = validateRegisterInput(req.body);
 
-    const email = req.body.email;
+    if (!isValid) {
+        return res
+            .status(400)
+            .json(errors);
+    }
 
+    const {email} = req.body;
+
+    //TODO: Search DB if user exists, create if does not exist
     User
         .findOne({email: email})
         .then(user => {
