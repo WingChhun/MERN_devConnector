@@ -5,7 +5,9 @@
     "main": "index.js",
     "scripts": {
         "start": "node server.js",
-        "dev": "set NODE_ENV=development&&  nodemon server.js"
+
+
+        "dev": " NODE_ENV=development &&  nodemon server.js"
     },
     "author": "James Chhun",
     "license": "ISC",
