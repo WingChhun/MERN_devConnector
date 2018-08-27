@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const gravatar = require("gravatar");
 const bcrypt = require('bcryptjs');
+const JWT = require('jsonwebtoken');
 //* Get User Schema model
 const User = require("../../models/User");
-
+const KEYS = require("../../config/keys");
 //TODO: User CRUD - START
 
 //TODO: READ ALL
@@ -79,18 +80,32 @@ router.post("/login", (req, res) => {
             }
 
             //* Check password *compare plain text password and  hhashed password
+            const {id, name, avatar} = user;
+            const payload = {
+                id,
+                name,
+                avatar
+            };
+
             bcrypt
                 .compare(password, user.password)
                 .then(isMatch => {
 
                     if (isMatch) {
-                        res.json({msg: "MESSAGE SUCCESS"});
+
+                        //* Sign token
+                        JWT.sign(payload, KEYS.SECRET, {
+                            expiresIn: 3600
+                        }, (err, token) => {
+                            const BEARER_TOKEN = 'Bearer ' + token;
+
+                            return res.json({success: true, token: BEARER_TOKEN});
+                        });
+                    } else {
+                        return res
+                            .status(400)
+                            .json({password: "Password incorect"})
                     }
-
-                    return res
-                        .status(400)
-                        .json({password: "Password incorect"})
-
                 })
 
         })
