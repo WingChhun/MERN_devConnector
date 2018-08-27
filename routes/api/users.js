@@ -3,6 +3,8 @@ const router = express.Router();
 const gravatar = require("gravatar");
 const bcrypt = require('bcryptjs');
 const JWT = require('jsonwebtoken');
+const passport = require("passport");
+
 //* Get User Schema model
 const User = require("../../models/User");
 const KEYS = require("../../config/keys");
@@ -131,6 +133,16 @@ router.delete("/:id", (req, res) => {
         .catch(err => {
             console.log(err);
         })
+
+});
+
+// TODO: api/users/current ! Has middleware passport @param Req.user contains
+// user info, should not send back password
+router.get("/current", passport.authenticate('jwt', {session: false}), (req, res) => {
+
+    const {id, name, email} = req.user;
+
+    res.json({id, name, email});
 
 });
 

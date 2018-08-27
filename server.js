@@ -3,6 +3,7 @@ const app = express();
 
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
+const passport = require("passport");
 
 const users = require("./routes/api/users");
 const profile = require("./routes/api/profile");
@@ -20,7 +21,7 @@ mongoose
 
 //TODO: Middleware configuration
 app.use(bodyParser.urlencoded({extended: false}));
-app.unsubscribe(bodyParser.json());
+app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
 
@@ -28,16 +29,23 @@ app.get("/", (req, res) => {
 
 })
 
+//TODO: Passport middleware
+app.use(passport.initialize());
+
+require("./config/passport")(passport);
+
 //TODO: ROUTES config
 app.use("/api/users", users);
 app.use("/api/profile", profile);
 app.use("/api/posts", posts);
 
+//! Default route
 app.get("*", (req, res) => {
     res.redirect("/");
 
 });
 
+//TODO: Start server on PORT
 app.listen(PORT, () => {
     console.log("Server running on PORT", PORT);
 })
