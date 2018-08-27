@@ -1,7 +1,7 @@
 const Validator = require('validator');
 const isEmpty = require("./is-empty");
 
-const validateRegisterInput = (data) => {
+const validateLoginInput = (data) => {
 
     let errors = {};
     let boundaries = {
