@@ -11,7 +11,32 @@ const KEYS = require("../../config/keys");
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 
-router.get("/", (req, res) => {});
+/*
+TODO: Fetch all users
+@route GET /api/users/
+@params None
+@access Public
+*/
+router.get("/", (req, res) => {
+
+    //*Search User collection return all users
+
+    User
+        .find()
+        .then(users => {
+
+            return users
+                ? res
+                    .status(200)
+                    .json(users)
+                : res
+                    .status(400)
+                    .json({msg: "No users"});
+
+        })
+        .catch(err => console.log(err))
+
+});
 
 /*
 @route /api/users/register
@@ -84,8 +109,7 @@ router.post("/login", (req, res) => {
     const {errors, isValid} = validateLoginInput(req.body);
 
     //! Return errors for login validation
-    is(isValid)
-    {
+    if (!isValid) {
         res
             .status(400)
             .json(errors);
