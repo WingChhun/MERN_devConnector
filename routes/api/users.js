@@ -198,6 +198,7 @@ router.delete("/:id", (req, res) => {
 });
 
 /*
+TODO: When logged in, fetch the current users credentials
 @route /api/users/register
 @params passport middleware
 @access private
