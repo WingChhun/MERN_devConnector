@@ -11,12 +11,13 @@ const KEYS = require("../../config/keys");
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 
-//TODO: User CRUD - START
-
-//TODO: READ ALL
 router.get("/", (req, res) => {});
 
-//TODO: CREATE @access PUBLIC
+/*
+@route /api/users/register
+@params Username, email, password, password2
+@access Public
+*/
 router.post("/register", (req, res) => {
 
     //* Check if email exists first
@@ -73,9 +74,11 @@ router.post("/register", (req, res) => {
 
 });
 
-// TODO: LOGIN USER ? GET api/users/login ? desc Login User / returning JWT
-// token ? access public
-
+/*
+@route POST - /api/users/register
+@params Username, email, password, password2
+@access Public
+*/
 router.post("/login", (req, res) => {
 
     const {errors, isValid} = validateLoginInput(req.body);
@@ -143,10 +146,18 @@ router.post("/login", (req, res) => {
 
 });
 
-//TODO: UPDATE
+/*
+@route UPDATE /api/users/:id
+@params Username, email, password, password2
+@access Private
+*/
 router.post("/:id", (req, res) => {});
 
-//TODO: DELETE
+/*
+@route DELETE /api/users/:id
+@params userID
+@access Private
+*/
 router.delete("/:id", (req, res) => {
 
     User
@@ -162,8 +173,11 @@ router.delete("/:id", (req, res) => {
 
 });
 
-// TODO: api/users/current ! Has middleware passport @param Req.user contains
-// user info, should not send back password
+/*
+@route /api/users/register
+@params passport middleware
+@access private
+*/
 router.get("/current", passport.authenticate('jwt', {session: false}), (req, res) => {
 
     const {id, name, email} = req.user;
@@ -172,7 +186,12 @@ router.get("/current", passport.authenticate('jwt', {session: false}), (req, res
 
 });
 
-//TODO GET api/users/test @desc Tests users route @access Public
+/*
+TODO: GET api/users/test @desc Tests users route
+@route /api/users/test
+@params nothing
+@access Public test
+*/
 router.get("/test", (req, res) => {
 
     const testJSON = {

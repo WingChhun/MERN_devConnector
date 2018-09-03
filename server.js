@@ -10,12 +10,11 @@ const profile = require("./routes/api/profile");
 const posts = require("./routes/api/posts");
 
 //DB CONFIG
-const db = require("./config/keys.js").MONGO_URL;
-const PORT = require("./config/keys.js").PORT;
+const {MONGO_URL, PORT} = require("./config/keys.js");
 
 //TODO: Connect to MongoDB
 mongoose
-    .connect(db)
+    .connect(MONGO_URL)
     .then(() => console.log("MongoDB has connected!"))
     .catch(err => console.log("MongoDB failed ", err));
 
