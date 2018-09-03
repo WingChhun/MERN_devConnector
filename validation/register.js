@@ -11,21 +11,21 @@ const validateRegisterInput = (data) => {
     const {name, email, password, password2} = data;
 
     //? Make sure data is a string to be tested
-    data.name = !isEmpty(data.name)
-        ? data.name
-        : "";
+    data.name = !isEmpty(name)
+        ? name
+        : " ";
 
-    data.email = !isEmpty(data.email)
-        ? data.email
-        : "";
+    data.email = !isEmpty(email)
+        ? email.toString()
+        : " ";
 
-    data.password = !isEmpty(data.password)
-        ? data.password
-        : "";
+    data.password = !isEmpty(password)
+        ? password
+        : " ";
 
-    data.password2 = !isEmpty(data.password2)
-        ? data.password2
-        : "";
+    data.password2 = !isEmpty(password2)
+        ? password2
+        : " ";
 
     //TODO: Check boundaries, return error
     if (!Validator.isLength(name, boundaries)) {
@@ -55,7 +55,7 @@ const validateRegisterInput = (data) => {
         errors.password2 = "Confirm password field is required";
     }
 
-    if (Validator.equals(data.password, data.password2)) {
+    if (!Validator.equals(data.password, data.password2)) {
         errors.password2 = "Passwords must match";
     }
 
