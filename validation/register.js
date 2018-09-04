@@ -16,7 +16,9 @@ const validateRegisterInput = (data) => {
         : " ";
 
     data.email = !isEmpty(email)
-        ? email.toString()
+        ? email
+            .toString()
+            .trim()
         : " ";
 
     data.password = !isEmpty(password)
@@ -28,19 +30,19 @@ const validateRegisterInput = (data) => {
         : " ";
 
     //TODO: Check boundaries, return error
-    if (!Validator.isLength(name, boundaries)) {
+    if (!Validator.isLength(data.name, boundaries)) {
         errors.name = "Name must be between 2 and 30 characters";
     }
 
-    if (Validator.isEmpty(name)) {
+    if (Validator.isEmpty(data.name)) {
         errors.name = "Name field is required";
     }
 
-    if (Validator.isEmpty(email) || !Validator.isEmail(email)) {
+    if (Validator.isEmpty(data.email) || !Validator.isEmail(data.email)) {
         errors.email = "Email is invalid";
     }
 
-    if (Validator.isEmpty(password)) {
+    if (Validator.isEmpty(data.password)) {
         errors.password = "Password is invalid";
     }
 
