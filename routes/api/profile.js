@@ -3,10 +3,10 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require("passport");
-
-const Profile = require("../../models/Profile");
 const User = require("../../models/User");
+const Profile = require("../../models/Profile");
 
+const validateProfile = require("../../validation/profile");
 /*
 @route:
 @desc:
@@ -20,13 +20,16 @@ const User = require("../../models/User");
 @desc: Gets current users profile, have to be logged in
 @access: Private
 */
-router.get("/", passport.authenticate('jwt', {session: false}), (req, res, next) => {
+router.get("/", passport.authenticate('jwt', {session: false}), (req, res) => {
     const errors = {};
     const {user} = req;
 
+    //! populate will populate User field into response
     Profile
         .findOne({user: user.id})
+        .populate('user', ["name", "avatar"])
         .then(profile => {
+            console.log('profile', profile);
 
             if (!profile) {
                 errors.noprofile = "No profile for this user";
@@ -51,9 +54,16 @@ router.get("/", passport.authenticate('jwt', {session: false}), (req, res, next)
 */
 router.post("/", passport.authenticate('jwt', {session: false}), (req, res) => {
 
-    //@NOTE: Get fields
+    //! Validate and return errors if exists @NOTE: Get fields
     const {user} = req;
     const profileFields = {};
+    const {errors, isValid} = validateProfile(req.body);
+
+    if (!isValid) {
+        return res
+            .status(400)
+            .json(errors);
+    }
 
     profileFields.user = req.user.id;
     profileFields.social = {};
@@ -89,11 +99,18 @@ router.post("/", passport.authenticate('jwt', {session: false}), (req, res) => {
 
     if (typeof req.body.skills !== 'undefined') {
 
+        //Note: logic to trim white space and make array of CSVS
         // * Array of comma splitted values (csvs)
-        profileFields.skills = req
+
+        let skills = req
             .body
             .skills
             .split(',');
+
+        skills = skills.map(skill => skill.trim());
+
+        profileFields.skills = skills;
+
     }
 
     if (req.body.youtube) {
@@ -162,6 +179,13 @@ router.post("/", passport.authenticate('jwt', {session: false}), (req, res) => {
         })
 
 });
+
+/*
+@route: POST api/profile
+@desc: Create or Edit user profile
+@params: passport.jwt for access to req.user
+@access: Private
+*/
 
 //TODO GET api/profile/test @desc Tests profile route @access Public
 router.get("/test", (req, res) => {

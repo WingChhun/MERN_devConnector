@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
+const User = require("./User");
 //TODO: Create Schema for Profile
 
 // Note: user: Schema.Types.objectId will reference users collection in our
@@ -11,7 +11,7 @@ const ProfileSchema = new Schema({
     user: {
 
         type: Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'Users'
     },
 
     handle: {
@@ -154,4 +154,4 @@ const ProfileSchema = new Schema({
 
 });
 
-module.exports = Profile = mongoose.model("Profiles", ProfileSchema);
+module.exports = Profile = mongoose.model("Profile", ProfileSchema, );

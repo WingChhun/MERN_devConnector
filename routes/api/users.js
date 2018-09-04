@@ -110,7 +110,7 @@ router.post("/login", (req, res) => {
 
     //! Return errors for login validation
     if (!isValid) {
-        res
+        return res
             .status(400)
             .json(errors);
     }

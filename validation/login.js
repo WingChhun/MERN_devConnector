@@ -21,11 +21,11 @@ const validateLoginInput = (data) => {
 
     //TODO: Check boundaries, return error
 
-    if (Validator.isEmpty(email) || !Validator.isEmail(email)) {
+    if (Validator.isEmpty(data.email) || !Validator.isEmail(data.email)) {
         errors.email = "Email is invalid";
     }
 
-    if (Validator.isEmpty(password)) {
+    if (Validator.isEmpty(data.password)) {
         errors.password = "Password is invalid";
     }
 
