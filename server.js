@@ -6,20 +6,21 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 
 
+//NOTE: Routes
 const users = require("./routes/api/users");
 const profile = require("./routes/api/profile");
 const posts = require("./routes/api/posts");
 
-//DB CONFIG
+//* DB Config
 const {MONGO_URL, PORT} = require("./config/keys.js");
 
-//TODO: Connect to MongoDB
+//* Connect to MongoDB
 mongoose
     .connect(MONGO_URL)
     .then(() => console.log("MongoDB has connected!"))
     .catch(err => console.log("MongoDB failed ", err));
 
-//TODO: Middleware configuration
+//* Middleware configuration
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 

@@ -10,9 +10,19 @@ const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = KEYS.SECRET;
 
+/*
+TODO: Middleware passport-jwt Strategy,
+@params take in JWT payload
+@desc 
+@access Private
+*/
+
 module.exports = passport => {
 
     passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
+
+        //*DEBUG
+        console.log('jwt_payload', jwt_payload);
 
         User
             .findById(jwt_payload.id)
