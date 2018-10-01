@@ -1,5 +1,5 @@
 import {TEST_DISPATCH, GET_ERRORS, SET_CURRENT_USER} from "./types";
-import {setAuthToken} from "../utils/setAuthToken";
+import setAuthToken from "../utils/setAuthToken";
 import axios from 'axios';
 import jwtDecode from "jwt-decode";
 
@@ -54,7 +54,8 @@ export const loginUser = userData => dispatch => {
 //* set logged in user
 
 /*
-
+@function: setCurrentUser
+@desc: Dispatch set current user with the payload
 */
 export const setCurrentUser = decoded => {
     //dispatch to reducer
