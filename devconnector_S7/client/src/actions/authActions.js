@@ -1,4 +1,4 @@
-import {TEST_DISPATCH, GET_ERRORS} from "./types";
+import {TEST_DISPATCH, GET_ERRORS, SET_CURRENT_USER} from "./types";
 import {setAuthToken} from "../utils/setAuthToken";
 import axios from 'axios';
 import jwtDecode from "jwt-decode";
@@ -39,8 +39,24 @@ export const loginUser = userData => dispatch => {
 
             //* Extract the user from the bearer token
 
+            const decoded = jwtDecode(token);
+
+            //* set current User
+
+            dispatch(setCurrentUser(decoded));
+
             debugger;
         })
         .catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}))
 
 };
+
+//* set logged in user
+
+/*
+
+*/
+export const setCurrentUser = decoded => {
+    //dispatch to reducer
+    return {type: SET_CURRENT_USER, payload: decoded}
+}
