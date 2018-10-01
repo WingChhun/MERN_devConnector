@@ -7,13 +7,18 @@ import classnames from 'classnames';
 import {loginUser} from "../../actions/authActions";
 
 class Login extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+
         this.state = {
             email: '',
             password: '',
             errors: {}
         };
+
+        // ! If already logged in; user should alrdy be redirected to the dashboard if
+        // (props.auth.isAuthenticated) {     props         .history
+        // .push("/dashboard"); }
 
         this.onChange = this
             .onChange

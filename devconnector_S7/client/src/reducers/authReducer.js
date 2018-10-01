@@ -2,7 +2,7 @@ import {TEST_DISPATCH, SET_CURRENT_USER} from "../actions/types";
 import isEmpty from "../validation/is-empty";
 
 const initialState = {
-    itAuthenticated: false,
+    isAuthenticated: false,
     user: {}
 
 }
