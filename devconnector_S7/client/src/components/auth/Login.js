@@ -54,6 +54,9 @@ class Login extends Component {
     }
 
     render() {
+
+const {errors} = this.state;
+
         return (
             <div className="login">
                 <div className="container">
@@ -71,7 +74,9 @@ class Login extends Component {
                                         placeholder="Email Address"
                                         name="email"
                                         value={this.state.email}
-                                        onChange={this.onChange}/>
+                                        onChange={this.onChange}/> {errors.email && (
+                                        <div className="invalid-feedback">{errors.email}</div>
+                                    )}
                                 </div>
                                 <div className="form-group">
                                     <input
@@ -79,8 +84,11 @@ class Login extends Component {
                                         className="form-control form-control-lg"
                                         placeholder="Password"
                                         name="password"
+                                   
                                         value={this.state.password}
-                                        onChange={this.onChange}/>
+                                        onChange={this.onChange}/> {errors.password && (
+                                        <div className="invalid-feedback">{errors.password}</div>
+                                    )}
                                 </div>
                                 <input type="submit" className="btn btn-info btn-block mt-4"/>
                             </form>
@@ -91,15 +99,12 @@ class Login extends Component {
         );
     }
 }
-
 Login.propTypes = {
     loginUser: propTypes.func.isRequired,
     auth: propTypes.object.isRequired,
     errors: propTypes.object
 };
-
 const mapStateToProps = (state) => ({auth: state.auth, errors: state.errors});
-
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
     loginUser
 }, dispatch);
