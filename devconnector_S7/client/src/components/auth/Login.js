@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, combineReducers} from 'redux';
 import {withRouter} from 'react-router-dom';
-import propTypes from 'prop-types';
-
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import {loginUser} from "../../actions/authActions";
 
 class Login extends Component {
@@ -43,7 +43,7 @@ class Login extends Component {
 
         this
             .props
-            .loginUser(user);
+            .loginUser(user, this.props.history);
 
     }
 
@@ -55,7 +55,7 @@ class Login extends Component {
 
     render() {
 
-const {errors} = this.state;
+        const {errors} = this.state;
 
         return (
             <div className="login">
@@ -70,7 +70,7 @@ const {errors} = this.state;
                                 <div className="form-group">
                                     <input
                                         type="email"
-                                        className="form-control form-control-lg"
+                                        className={classnames('form-control form-control-lg', {'is-invalid': errors.email})}
                                         placeholder="Email Address"
                                         name="email"
                                         value={this.state.email}
@@ -81,10 +81,9 @@ const {errors} = this.state;
                                 <div className="form-group">
                                     <input
                                         type="password"
-                                        className="form-control form-control-lg"
+                                        className={classnames('form-control form-control-lg', {'is-invalid': errors.password})}
                                         placeholder="Password"
                                         name="password"
-                                   
                                         value={this.state.password}
                                         onChange={this.onChange}/> {errors.password && (
                                         <div className="invalid-feedback">{errors.password}</div>
@@ -100,9 +99,9 @@ const {errors} = this.state;
     }
 }
 Login.propTypes = {
-    loginUser: propTypes.func.isRequired,
-    auth: propTypes.object.isRequired,
-    errors: propTypes.object
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object
 };
 const mapStateToProps = (state) => ({auth: state.auth, errors: state.errors});
 const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({

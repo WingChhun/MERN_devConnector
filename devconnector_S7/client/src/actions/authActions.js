@@ -24,7 +24,7 @@ export const registerUser = (userData, history) => dispatch => {
 @function: action
 
 */
-export const loginUser = userData => dispatch => {
+export const loginUser = (userData, history) => dispatch => {
 
     axios
         .post("/api/users/login", userData)
@@ -45,6 +45,9 @@ export const loginUser = userData => dispatch => {
 
             dispatch(setCurrentUser(decoded));
 
+            /*
+redirect to home page since successful
+            */
             debugger;
         })
         .catch(err => {
