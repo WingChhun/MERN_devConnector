@@ -24,6 +24,17 @@ class Login extends Component {
     }
 
     componentWillReceiveProps = props => {
+
+        //! If already authenticated; then just redirect to dashboard immediately
+        if (props.auth.isAuthenticated) {
+
+            this
+                .props
+                .history
+                .push("/dashboard");
+        }
+
+        //! If errors, set the errors
         if (props.errors) {
             this.setState({errors: props.errors});
         }
