@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, combineReducers} from 'redux';
 import {withRouter} from 'react-router-dom';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 
 import {loginUser} from "../../actions/authActions";
 
@@ -23,6 +23,12 @@ class Login extends Component {
             .bind(this);
     }
 
+    componentWillReceiveProps = props => {
+        if (props.errors) {
+            this.setState({errors: props.errors});
+        }
+    }
+
     onSubmit(e) {
         e.preventDefault();
 
@@ -32,6 +38,13 @@ class Login extends Component {
         };
 
         console.log(user);
+
+        //TODO: New plug in props.loginUser
+
+        this
+            .props
+            .loginUser(user);
+
     }
 
     onChange(e) {
@@ -79,15 +92,15 @@ class Login extends Component {
     }
 }
 
-Login.PropTypes = {
-    loginUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired
+Login.propTypes = {
+    loginUser: propTypes.func.isRequired,
+    auth: propTypes.object.isRequired,
+    errors: propTypes.object
 };
 
 const mapStateToProps = (state) => ({auth: state.auth, errors: state.errors});
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
     loginUser
 }, dispatch);
 
