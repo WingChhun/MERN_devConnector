@@ -28,6 +28,18 @@ class Login extends Component {
             .bind(this);
     }
 
+    // NOTE: Redirect user to the landing: never be able to directly hit the login
+    // route
+    componentDidMOunt = () => {
+        if (this.props.auth.iosAuthenticated) {
+            this
+                .props
+                .history
+                .push("/");
+        }
+
+    }
+
     componentWillReceiveProps = props => {
 
         //! If already authenticated; then just redirect to dashboard immediately
