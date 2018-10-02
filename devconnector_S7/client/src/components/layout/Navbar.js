@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {logoutUser} from "../../actions/authActions.js";
 class Navbar extends Component {
@@ -13,10 +14,12 @@ class Navbar extends Component {
     }
     onLogOutClick = (e) => {
 
+        const {logoutUser} = this.props;
+        //! Prevent refresh
         e.preventDefault();
-        this
-            .props
-            .logoutUser();
+
+        logoutUser();
+
     }
 
     render() {
@@ -27,7 +30,7 @@ class Navbar extends Component {
             <ul className="navbar-nav ml-auto">
 
                 <li className="nav-item">
-                    <a href="" onClick ={this.onLogOutClick} className="nav-link"></a>
+                    <a href="" onClick ={this.onLogOutClick} className="nav-link">Logout</a>
                 </li>
             </ul>
         );
@@ -93,6 +96,8 @@ Navbar.propTypes = {
 
 const mapStateToProps = state => ({auth: state.auth});
 
-const mapDispatchToProps = (dispatch, ownProps) => ({logoutUser})
+const mapDispatchToProps = (dispatch, ownProps) => bindActionCreators({
+    logoutUser
+}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
