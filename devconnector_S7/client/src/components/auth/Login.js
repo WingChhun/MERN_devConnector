@@ -30,8 +30,8 @@ class Login extends Component {
 
     // NOTE: Redirect user to the landing: never be able to directly hit the login
     // route
-    componentDidMOunt = () => {
-        if (this.props.auth.iosAuthenticated) {
+    componentDidMount = () => {
+        if (this.props.auth.isAuthenticated) {
             this
                 .props
                 .history
