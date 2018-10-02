@@ -45,10 +45,6 @@ export const loginUser = (userData, history) => dispatch => {
 
             dispatch(setCurrentUser(decoded));
 
-            /*
-redirect to home page since successful
-            */
-            debugger;
         })
         .catch(err => {
             dispatch({type: GET_ERRORS, payload: err.response.data})
@@ -65,4 +61,19 @@ redirect to home page since successful
 export const setCurrentUser = decoded => {
     //dispatch to reducer
     return {type: SET_CURRENT_USER, payload: decoded}
+}
+
+export const logoutUser = () => dispatch => {
+
+    //! remove token from localStorage
+
+    localStorage.removeItem("jwtToken");
+
+    //! Remove auth HEader from axios
+
+    setAuthToken(false);
+
+    //! Set current user to {} which will also set isAuthenticated to false
+
+    dispatch(setCurrentUser({}))
 }
